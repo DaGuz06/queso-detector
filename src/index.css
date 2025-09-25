@@ -1,0 +1,275 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 4%;
+
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 0 0% 12%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 120 100% 50%;
+
+    /* Radar specific colors */
+    --radar-green: 120 100% 50%;
+    --radar-green-dim: 120 100% 30%;
+    --radar-green-glow: 120 100% 70%;
+    --radar-background: 0 0% 8%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Radar Container - Responsive */
+  .radar-container {
+    @apply relative mx-auto;
+    width: min(90vw, 24rem); /* 384px en desktop, 90% en mobile */
+    height: min(90vw, 24rem);
+  }
+  
+  /* Responsive breakpoints */
+  @screen sm {
+    .radar-container {
+      width: min(80vw, 28rem); /* 448px en tablet */
+      height: min(80vw, 28rem);
+    }
+  }
+  
+  @screen lg {
+    .radar-container {
+      width: 32rem; /* 512px en desktop */
+      height: 32rem;
+    }
+  }
+  
+  /* Radar background */
+  .radar-background {
+    @apply absolute inset-0 rounded-full bg-radar-background border border-green-500/40 animate-pulse-glow;
+  }
+  
+  /* Radar rings - Responsive sizing */
+  .radar-ring {
+    @apply border border-green-500/30 rounded-full absolute;
+  }
+  
+  .radar-ring-1 { @apply inset-[8%]; }
+  .radar-ring-2 { @apply inset-[16%]; }
+  .radar-ring-3 { @apply inset-[24%]; }
+  .radar-ring-4 { @apply inset-[32%]; }
+  
+  /* Center dot - Responsive */
+  .radar-center-dot {
+    @apply absolute top-1/2 left-1/2 bg-green-500 rounded-full transform -translate-x-1/2 -translate-y-1/2;
+    width: max(0.5rem, 1vw);
+    height: max(0.5rem, 1vw);
+  }
+  
+  /* Radar sweep */
+  .radar-sweep {
+    @apply absolute inset-0 rounded-full;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 270deg,
+      hsl(var(--radar-green) / 0.3) 330deg,
+      hsl(var(--radar-green) / 0.6) 360deg
+    );
+    animation: radar-sweep 4s linear infinite;
+  }
+  
+  /* Grid lines - Responsive */
+  .radar-grid-vertical {
+    @apply absolute top-0 bottom-0 left-1/2 bg-green-500/20 transform -translate-x-1/2;
+    width: max(1px, 0.1vw);
+  }
+  
+  .radar-grid-horizontal {
+    @apply absolute left-0 right-0 top-1/2 bg-green-500/20 transform -translate-y-1/2;
+    height: max(1px, 0.1vw);
+  }
+  
+  /* Category buttons - Responsive */
+  .category-button {
+    @apply px-4 py-2 sm:px-6 sm:py-3 rounded-full border-2 border-white/30 text-white font-medium
+           hover:border-white/50 hover:bg-white/5 transition-all duration-300;
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+  }
+  
+  /* Product items - Mejoradas transiciones y responsive */
+  .product-item {
+    @apply absolute rounded-lg bg-white/10 backdrop-blur-sm border border-white/20
+           flex flex-col items-center justify-center cursor-pointer
+           transform -translate-x-1/2 -translate-y-1/2;
+    
+    /* Responsive sizing */
+    width: clamp(3rem, 8vw, 4rem);
+    height: clamp(3rem, 8vw, 4rem);
+    
+    /* Transiciones mejoradas */
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .product-item:hover {
+    @apply scale-110 bg-white/20 border-green-500/50;
+    box-shadow: 0 0 20px hsl(var(--radar-green) / 0.3);
+  }
+  
+  .product-item-moving {
+    @apply scale-105;
+    box-shadow: 0 0 15px hsl(var(--radar-green) / 0.4);
+  }
+  
+  /* Product images - Responsive */
+  .product-image {
+    @apply object-contain transition-transform duration-300;
+    width: clamp(2rem, 6vw, 3rem);
+    height: clamp(2rem, 6vw, 3rem);
+  }
+  
+}
+
+@layer utilities {
+  @keyframes radar-sweep {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { 
+      box-shadow: 0 0 20px hsl(var(--radar-green) / 0.3);
+    }
+    50% { 
+      box-shadow: 0 0 40px hsl(var(--radar-green) / 0.6);
+    }
+  }
+  
+  @keyframes product-appear {
+    0% {
+      transform: translate(-50%, -50%) scale(0) rotate(180deg);
+      opacity: 0;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.2) rotate(90deg);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes product-move {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+  
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  
+  .animate-product-appear {
+    animation: product-appear 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .animate-product-move {
+    animation: product-move 0.6s ease-in-out;
+  }
+}

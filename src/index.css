@@ -261,6 +261,21 @@ All colors MUST be HSL.
     }
   }
   
+  @keyframes product-disappear {
+    0% {
+      transform: translate(-50%, -50%) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(0.5) rotate(-90deg);
+      opacity: 0.3;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(0) rotate(-180deg);
+      opacity: 0;
+    }
+  }
+  
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
   }
@@ -271,5 +286,9 @@ All colors MUST be HSL.
   
   .animate-product-move {
     animation: product-move 0.6s ease-in-out;
+  }
+  
+  .animate-product-disappear {
+    animation: product-disappear 0.8s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
   }
 }

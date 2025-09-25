@@ -52,6 +52,7 @@ const RadarDisplay = () => {
 
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [radarCycles, setRadarCycles] = useState(0);
+  const [antiGordaDisappearing, setAntiGordaDisappearing] = useState(false);
 
   useEffect(() => {
     // Controlar la visibilidad de antiGorda basado en los ciclos del radar
@@ -64,6 +65,16 @@ const RadarDisplay = () => {
             if (product.name === 'antigordas') {
               // Aparece en el ciclo 3, 7, 11, etc. (cada 4 ciclos, visible en el 3er ciclo)
               const shouldBeVisible = (newCycles % 4) === 3;
+              
+              // Si estaba visible y ahora debe desaparecer, activar animación de desaparición
+              if (product.isVisible && !shouldBeVisible) {
+                setAntiGordaDisappearing(true);
+                // Después de la animación, ocultar completamente
+                setTimeout(() => {
+                  setAntiGordaDisappearing(false);
+                }, 800); // Duración de la animación de desaparición
+              }
+              
               return {
                 ...product,
                 isVisible: shouldBeVisible,
@@ -142,11 +153,13 @@ const RadarDisplay = () => {
       {/* Products positioned around the radar */}
       {products.map((product, index) => (
         // Solo mostrar el producto si es visible (para antiGorda) o si no tiene la propiedad isVisible
-        (product.isVisible !== false) && (
+        (product.isVisible !== false || (product.name === 'antigordas' && antiGordaDisappearing)) && (
           <div
             key={product.id}
             className={`product-item ${product.isMoving ? 'product-item-moving' : ''} ${
               product.name === 'antigordas' && product.isVisible ? 'animate-product-appear' : ''
+            } ${
+              product.name === 'antigordas' && antiGordaDisappearing ? 'animate-product-disappear' : ''
             }`}
             style={{
               left: `${product.position.x}%`,

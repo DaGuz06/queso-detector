@@ -19,6 +19,7 @@ interface Product {
   name: string;
   position: ProductPosition;
   isMoving: boolean;
+  isVisible?: boolean;
 }
 
 const RadarDisplay = () => {
@@ -46,12 +47,38 @@ const RadarDisplay = () => {
     { id: 4, image: blueCheese, name: 'Blue Cheese', position: generateRandomPosition(), isMoving: false },
     { id: 5, image: babybelCheese, name: 'Mini Babybel', position: generateRandomPosition(), isMoving: false },
     { id: 6, image: quesoBrie, name: 'Queso Brie', position: generateRandomPosition(), isMoving: false },
-    { id: 7, image: antiGorda, name: 'antigordas', position: generateRandomPosition(), isMoving: false },
+    { id: 7, image: antiGorda, name: 'antigordas', position: generateRandomPosition(), isMoving: false, isVisible: false },
   ];
 
   const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [radarCycles, setRadarCycles] = useState(0);
 
   useEffect(() => {
+    // Controlar la visibilidad de antiGorda basado en los ciclos del radar
+    const radarCycleInterval = setInterval(() => {
+      setRadarCycles(prevCycles => {
+        const newCycles = prevCycles + 1;
+        
+        setProducts(prevProducts => 
+          prevProducts.map(product => {
+            if (product.name === 'antigordas') {
+              // Aparece en el ciclo 3, 7, 11, etc. (cada 4 ciclos, visible en el 3er ciclo)
+              const shouldBeVisible = (newCycles % 4) === 3;
+              return {
+                ...product,
+                isVisible: shouldBeVisible,
+                // Si aparece, generar nueva posición
+                position: shouldBeVisible ? generateRandomPosition() : product.position
+              };
+            }
+            return product;
+          })
+        );
+        
+        return newCycles;
+      });
+    }, 4000); // 4 segundos = 1 vuelta completa del radar
+
     const moveProducts = () => {
       // Marcar productos como "moviéndose" para activar transiciones
       setProducts(prevProducts => 
@@ -64,11 +91,20 @@ const RadarDisplay = () => {
       // Después de un pequeño delay, actualizar las posiciones
       setTimeout(() => {
         setProducts(prevProducts => 
-          prevProducts.map((product, index) => ({
-            ...product,
-            position: generateRandomPosition(),
-            isMoving: false
-          }))
+          prevProducts.map((product, index) => {
+            // No mover antiGorda si no está visible
+            if (product.name === 'antigordas' && !product.isVisible) {
+              return {
+                ...product,
+                isMoving: false
+              };
+            }
+            return {
+              ...product,
+              position: generateRandomPosition(),
+              isMoving: false
+            };
+          })
         );
       }, 100);
     };
@@ -76,7 +112,10 @@ const RadarDisplay = () => {
     // Mover los productos cada 6 segundos para más dinamismo
     const interval = setInterval(moveProducts, 6000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearInterval(radarCycleInterval);
+    };
   }, []);
 
   return (
@@ -102,22 +141,27 @@ const RadarDisplay = () => {
       
       {/* Products positioned around the radar */}
       {products.map((product, index) => (
-        <div
-          key={product.id}
-          className={`product-item ${product.isMoving ? 'product-item-moving' : ''}`}
-          style={{
-            left: `${product.position.x}%`,
-            top: `${product.position.y}%`,
-            transitionDelay: `${index * 0.2}s`
-          }}
-          title={product.name}
-        >
-          <img 
-            src={product.image} 
-            alt={product.name}
-            className="product-image"
-          />
-        </div>
+        // Solo mostrar el producto si es visible (para antiGorda) o si no tiene la propiedad isVisible
+        (product.isVisible !== false) && (
+          <div
+            key={product.id}
+            className={`product-item ${product.isMoving ? 'product-item-moving' : ''} ${
+              product.name === 'antigordas' && product.isVisible ? 'animate-product-appear' : ''
+            }`}
+            style={{
+              left: `${product.position.x}%`,
+              top: `${product.position.y}%`,
+              transitionDelay: `${index * 0.2}s`
+            }}
+            title={product.name}
+          >
+            <img 
+              src={product.image} 
+              alt={product.name}
+              className="product-image"
+            />
+          </div>
+        )
       ))}
     </div>
   );

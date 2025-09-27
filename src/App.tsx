@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import SonarAudio from './components/SonarAudio';
 
 const queryClient = new QueryClient();
 
@@ -25,7 +24,6 @@ function App() {
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>
-      <SonarAudio />
     </>
   );
 }

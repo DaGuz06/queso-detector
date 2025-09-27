@@ -1,73 +1,65 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Volume2, VolumeX } from 'lucide-react';
 import sonarSound from '../assets/sonarSoundEffect.mp3';
 
 const SonarAudio: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  useEffect(() => {
+  const toggleAudio = async () => {
     const audio = audioRef.current;
-    if (audio) {
-      // Set volume to a reasonable level (50%)
-      audio.volume = 0.5;
-      
-      // Play the audio when component mounts
-      const playAudio = async () => {
-        try {
-          await audio.play();
-        } catch (error) {
-          console.log('Audio autoplay was prevented:', error);
-          // Handle autoplay policy - audio will play on first user interaction
-        }
-      };
+    if (!audio) return;
 
-      playAudio();
-
-      // Handle audio end event to restart loop
-      const handleEnded = () => {
-        audio.currentTime = 0;
-        audio.play().catch(console.error);
-      };
-
-      audio.addEventListener('ended', handleEnded);
-
-      return () => {
-        audio.removeEventListener('ended', handleEnded);
+    try {
+      if (isPlaying) {
         audio.pause();
-      };
-    }
-  }, []);
-
-  // Handle user interaction to enable audio (for browsers with autoplay restrictions)
-  useEffect(() => {
-    const enableAudio = () => {
-      const audio = audioRef.current;
-      if (audio && audio.paused) {
-        audio.play().catch(console.error);
+        audio.currentTime = 0;
+        setIsPlaying(false);
+      } else {
+        audio.volume = 0.5;
+        await audio.play();
+        setIsPlaying(true);
       }
-    };
+    } catch (error) {
+      console.error('Error al reproducir el audio:', error);
+    }
+  };
 
-    // Add event listeners for user interaction
-    document.addEventListener('click', enableAudio, { once: true });
-    document.addEventListener('keydown', enableAudio, { once: true });
-    document.addEventListener('touchstart', enableAudio, { once: true });
-
-    return () => {
-      document.removeEventListener('click', enableAudio);
-      document.removeEventListener('keydown', enableAudio);
-      document.removeEventListener('touchstart', enableAudio);
-    };
-  }, []);
+  const handleAudioEnded = () => {
+    const audio = audioRef.current;
+    if (audio && isPlaying) {
+      audio.currentTime = 0;
+      audio.play().catch(console.error);
+    }
+  };
 
   return (
-    <audio
-      ref={audioRef}
-      loop
-      preload="auto"
-      style={{ display: 'none' }}
-    >
-      <source src={sonarSound} type="audio/mpeg" />
-      Your browser does not support the audio element.
-    </audio>
+    <div className="fixed top-4 right-4 z-50">
+      <Button
+        onClick={toggleAudio}
+        variant="outline"
+        size="icon"
+        className="bg-background/80 backdrop-blur-sm border-green-500/40 hover:border-green-500/60 hover:bg-green-500/10"
+        title={isPlaying ? 'Detener sonar' : 'Activar sonar'}
+      >
+        {isPlaying ? (
+          <Volume2 className="h-4 w-4 text-green-500" />
+        ) : (
+          <VolumeX className="h-4 w-4 text-muted-foreground" />
+        )}
+      </Button>
+      
+      <audio
+        ref={audioRef}
+        preload="auto"
+        onEnded={handleAudioEnded}
+        style={{ display: 'none' }}
+      >
+        <source src={sonarSound} type="audio/mpeg" />
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+    </div>
   );
 };
 

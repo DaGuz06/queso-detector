@@ -6,8 +6,8 @@ import SonarAudio from '../components/SonarAudio';
 const Index = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col p-4 sm:p-6 lg:p-8">
-      <SonarAudio />
       <div className="flex-1 flex flex-col items-center justify-center max-w-6xl mx-auto w-full">
+        <SonarAudio />
         {/* Header - Responsive */}
         <div className="mb-6 sm:mb-8 lg:mb-12 text-center">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">

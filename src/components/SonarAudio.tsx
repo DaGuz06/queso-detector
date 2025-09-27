@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import sonarSound from '../assets/sonar sound effect.mp3';
+import sonarSound from '../assets/sonarSoundEffect.mp3';
 
 const SonarAudio: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement>(null);

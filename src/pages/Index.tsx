@@ -1,10 +1,12 @@
 import React from 'react';
 import CategoryButtons from '../components/CategoryButtons';
 import RadarDisplay from '../components/RadarDisplay';
+import SonarAudio from '../components/SonarAudio';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col p-4 sm:p-6 lg:p-8">
+      <SonarAudio />
       <div className="flex-1 flex flex-col items-center justify-center max-w-6xl mx-auto w-full">
         {/* Header - Responsive */}
         <div className="mb-6 sm:mb-8 lg:mb-12 text-center">

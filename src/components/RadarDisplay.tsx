@@ -41,13 +41,13 @@ const RadarDisplay = () => {
   };
 
   const initialProducts: Product[] = [
-    { id: 1, image: cheeseWheel, name: 'Aged Cheese', position: generateRandomPosition(), isMoving: false },
-    { id: 2, image: granaPadano, name: 'Grana Padano', position: generateRandomPosition(), isMoving: false },
-    { id: 3, image: cheeseSlices, name: 'Cheese Slices', position: generateRandomPosition(), isMoving: false },
-    { id: 4, image: blueCheese, name: 'Blue Cheese', position: generateRandomPosition(), isMoving: false },
-    { id: 5, image: babybelCheese, name: 'Mini Babybel', position: generateRandomPosition(), isMoving: false },
-    { id: 6, image: quesoBrie, name: 'Queso Brie', position: generateRandomPosition(), isMoving: false },
-    { id: 7, image: antiGorda, name: 'antigordas', position: generateRandomPosition(), isMoving: false, isVisible: false },
+    { id: 1, image: cheeseWheel, name: 'Quesito', position: generateRandomPosition(), isMoving: false },
+    { id: 2, image: granaPadano, name: 'Quesito', position: generateRandomPosition(), isMoving: false },
+    { id: 3, image: cheeseSlices, name: 'Grupo de Quesitos', position: generateRandomPosition(), isMoving: false },
+    { id: 4, image: blueCheese, name: 'Quesito', position: generateRandomPosition(), isMoving: false },
+    { id: 5, image: babybelCheese, name: 'Quesito', position: generateRandomPosition(), isMoving: false },
+    { id: 6, image: quesoBrie, name: 'Quesito', position: generateRandomPosition(), isMoving: false },
+    { id: 7, image: antiGorda, name: 'Gorda detectada', position: generateRandomPosition(), isMoving: false, isVisible: false },
   ];
 
   const [products, setProducts] = useState<Product[]>(initialProducts);
@@ -62,7 +62,7 @@ const RadarDisplay = () => {
         
         setProducts(prevProducts => 
           prevProducts.map(product => {
-            if (product.name === 'antigordas') {
+            if (product.name === 'Gorda detectada') {
               // Aparece en el ciclo 3, 7, 11, etc. (cada 4 ciclos, visible en el 3er ciclo)
               const shouldBeVisible = (newCycles % 4) === 3;
               
@@ -104,7 +104,7 @@ const RadarDisplay = () => {
         setProducts(prevProducts => 
           prevProducts.map((product, index) => {
             // No mover antiGorda si no está visible
-            if (product.name === 'antigordas' && !product.isVisible) {
+            if (product.name === 'Gorda detectada' && !product.isVisible) {
               return {
                 ...product,
                 isMoving: false
@@ -153,13 +153,13 @@ const RadarDisplay = () => {
       {/* Products positioned around the radar */}
       {products.map((product, index) => (
         // Solo mostrar el producto si es visible (para antiGorda) o si no tiene la propiedad isVisible
-        (product.isVisible !== false || (product.name === 'antigordas' && antiGordaDisappearing)) && (
+        (product.isVisible !== false || (product.name === 'Gorda detectada' && antiGordaDisappearing)) && (
           <div
             key={product.id}
             className={`product-item ${product.isMoving ? 'product-item-moving' : ''} ${
-              product.name === 'antigordas' && product.isVisible ? 'animate-product-appear' : ''
+              product.name === 'Gorda detectada' && product.isVisible ? 'animate-product-appear' : ''
             } ${
-              product.name === 'antigordas' && antiGordaDisappearing ? 'animate-product-disappear' : ''
+              product.name === 'Gorda detectada' && antiGordaDisappearing ? 'animate-product-disappear' : ''
             }`}
             style={{
               left: `${product.position.x}%`,

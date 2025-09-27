@@ -193,8 +193,8 @@ All colors MUST be HSL.
            transform -translate-x-1/2 -translate-y-1/2;
     
     /* Responsive sizing */
-    width: clamp(3rem, 8vw, 4rem);
-    height: clamp(3rem, 8vw, 4rem);
+    width: clamp(3.8rem, 9vw, 5rem);   /* intermedio */
+    height: clamp(3.8rem, 9vw, 5rem);  /* intermedio */
     
     /* Transiciones mejoradas */
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -213,8 +213,8 @@ All colors MUST be HSL.
   /* Product images - Responsive */
   .product-image {
     @apply object-contain transition-transform duration-300;
-    width: clamp(2rem, 6vw, 3rem);
-    height: clamp(2rem, 6vw, 3rem);
+    width: clamp(3rem, 7vw, 4rem);     /* intermedio */
+    height: clamp(3rem, 7vw, 4rem);    /* intermedio */
   }
   
 }

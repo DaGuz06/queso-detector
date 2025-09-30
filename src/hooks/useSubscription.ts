@@ -44,5 +44,7 @@ export const useSubscription = () => {
     fetchSubscription();
   }, [user]);
 
-  return { subscription, loading };
+  const isPremium = subscription?.subscription_status === 'active';
+
+  return { subscription, loading, isPremium };
 };

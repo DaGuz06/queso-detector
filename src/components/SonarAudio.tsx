@@ -35,18 +35,24 @@ const SonarAudio: React.FC = () => {
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50">
+    <div className="flex justify-center">
       <Button
         onClick={toggleAudio}
         variant="outline"
-        size="icon"
-        className="bg-background/80 backdrop-blur-sm border-green-500/40 hover:border-green-500/60 hover:bg-green-500/10"
+        size="sm"
+        className="bg-background/80 backdrop-blur-sm border-green-500/40 hover:border-green-500/60 hover:bg-green-500/10 px-3 sm:px-4"
         title={isPlaying ? 'Detener sonar' : 'Activar sonar'}
       >
         {isPlaying ? (
-          <Volume2 className="h-4 w-4 text-green-500" />
+          <>
+            <Volume2 className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-1 sm:mr-2" />
+            <span className="text-xs sm:text-sm text-green-500">Sonar ON</span>
+          </>
         ) : (
-          <VolumeX className="h-4 w-4 text-muted-foreground" />
+          <>
+            <VolumeX className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground mr-1 sm:mr-2" />
+            <span className="text-xs sm:text-sm text-muted-foreground">Sonar OFF</span>
+          </>
         )}
       </Button>
       

@@ -114,21 +114,28 @@ All colors MUST be HSL.
   /* Radar Container - Responsive */
   .radar-container {
     @apply relative mx-auto;
-    width: min(90vw, 24rem); /* 384px en desktop, 90% en mobile */
-    height: min(90vw, 24rem);
+    width: min(85vw, 20rem); /* Más pequeño en móvil */
+    height: min(85vw, 20rem);
   }
   
   /* Responsive breakpoints */
   @screen sm {
     .radar-container {
-      width: min(80vw, 28rem); /* 448px en tablet */
-      height: min(80vw, 28rem);
+      width: min(75vw, 24rem); /* Tamaño medio en tablet */
+      height: min(75vw, 24rem);
     }
   }
   
   @screen lg {
     .radar-container {
-      width: 32rem; /* 512px en desktop */
+      width: 28rem; /* Tamaño final en desktop */
+      height: 28rem;
+    }
+  }
+  
+  @screen xl {
+    .radar-container {
+      width: 32rem; /* Tamaño máximo en pantallas grandes */
       height: 32rem;
     }
   }
@@ -151,8 +158,8 @@ All colors MUST be HSL.
   /* Center dot - Responsive */
   .radar-center-dot {
     @apply absolute top-1/2 left-1/2 bg-green-500 rounded-full transform -translate-x-1/2 -translate-y-1/2;
-    width: max(0.5rem, 1vw);
-    height: max(0.5rem, 1vw);
+    width: max(0.375rem, 0.8vw);
+    height: max(0.375rem, 0.8vw);
   }
   
   /* Radar sweep */
@@ -171,19 +178,25 @@ All colors MUST be HSL.
   /* Grid lines - Responsive */
   .radar-grid-vertical {
     @apply absolute top-0 bottom-0 left-1/2 bg-green-500/20 transform -translate-x-1/2;
-    width: max(1px, 0.1vw);
+    width: max(1px, 0.08vw);
   }
   
   .radar-grid-horizontal {
     @apply absolute left-0 right-0 top-1/2 bg-green-500/20 transform -translate-y-1/2;
-    height: max(1px, 0.1vw);
+    height: max(1px, 0.08vw);
   }
   
   /* Category buttons - Responsive */
   .category-button {
-    @apply px-4 py-2 sm:px-6 sm:py-3 rounded-full border-2 border-white/30 text-white font-medium
+    @apply px-3 py-2 sm:px-4 sm:py-2 lg:px-6 lg:py-3 rounded-full border-2 border-white/30 text-white font-medium
            hover:border-white/50 hover:bg-white/5 transition-all duration-300;
-    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+  }
+  
+  @screen sm {
+    .category-button {
+      font-size: clamp(0.875rem, 2vw, 1rem);
+    }
   }
   
   /* Product items - Mejoradas transiciones y responsive */
@@ -193,11 +206,17 @@ All colors MUST be HSL.
            transform -translate-x-1/2 -translate-y-1/2;
     
     /* Responsive sizing */
-    width: clamp(3.8rem, 9vw, 5rem);   /* intermedio */
-    height: clamp(3.8rem, 9vw, 5rem);  /* intermedio */
+    width: clamp(2.5rem, 6vw, 3.5rem);     /* Más pequeñas en móvil */
+    height: clamp(2.5rem, 6vw, 3.5rem);    /* Más pequeñas en móvil */
     
     /* Transiciones mejoradas */
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  /* Tamaño grande para product items */
+  .product-item-large {
+    width: clamp(3rem, 7.5vw, 4.5rem);  /* Tamaño grande responsive */
+    height: clamp(3rem, 7.5vw, 4.5rem); /* Tamaño grande responsive */
   }
   
   .product-item:hover {
@@ -212,9 +231,15 @@ All colors MUST be HSL.
   
   /* Product images - Responsive */
   .product-image {
-    @apply object-contain transition-transform duration-300;
-    width: clamp(3rem, 7vw, 4rem);     /* intermedio */
-    height: clamp(3rem, 7vw, 4rem);    /* intermedio */
+    @apply object-contain transition-transform duration-300 rounded-lg;
+    width: clamp(2rem, 5vw, 3rem); /* Más pequeñas en móvil */
+    height: clamp(2rem, 5vw, 3rem); /* Más pequeñas en móvil */
+  }
+  
+  /* Tamaño grande para product images */
+  .product-image-large {
+    width: clamp(2.5rem, 6.5vw, 4rem);   /* Tamaño grande responsive */
+    height: clamp(2.5rem, 6.5vw, 4rem);  /* Tamaño grande responsive */
   }
   
 }

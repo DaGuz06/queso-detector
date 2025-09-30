@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import cheeseWheel from '../assets/cheese-wheel.png';
-import cheeseSlices from '../assets/cheese-slices.png';
+import cheeseSlices from '../assets/cheese-slices-removebg-preview.png';
 import babybelCheese from '../assets/babybel-cheese.png';
 import blueCheese from '../assets/blue-cheese.png';
-import granaPadano from '../assets/cuna_grana_padano.jpg';
-import quesoBrie from '../assets/quesoBrie.jpg';
-import antiGorda from '../assets/antiGorda.jpg';
+import granaPadano from '../assets/cuna_grana_padano.png';
+import quesoBrie from '../assets/quesoBrie.png';
+import antiGorda from '../assets/antiGorda.png';
 
 
 interface ProductPosition {
@@ -22,7 +22,11 @@ interface Product {
   isVisible?: boolean;
 }
 
-const RadarDisplay = () => {
+interface RadarDisplayProps {
+  isLargeSize?: boolean;
+}
+
+const RadarDisplay: React.FC<RadarDisplayProps> = ({ isLargeSize = false }) => {
   const generateRandomPosition = (): ProductPosition => {
     // Generar posiciones aleatorias dentro del área del radar
     // Usar coordenadas polares para mejor distribución
@@ -121,7 +125,7 @@ const RadarDisplay = () => {
     };
 
     // Mover los productos cada 6 segundos para más dinamismo
-    const interval = setInterval(moveProducts, 6000);
+    const interval = setInterval(moveProducts, 10000); // Más lento: cada 10 segundos
 
     return () => {
       clearInterval(interval);
@@ -156,7 +160,7 @@ const RadarDisplay = () => {
         (product.isVisible !== false || (product.name === 'Gorda detectada' && antiGordaDisappearing)) && (
           <div
             key={product.id}
-            className={`product-item ${product.isMoving ? 'product-item-moving' : ''} ${
+            className={`product-item ${isLargeSize ? 'product-item-large' : ''} ${product.isMoving ? 'product-item-moving' : ''} ${
               product.name === 'Gorda detectada' && product.isVisible ? 'animate-product-appear' : ''
             } ${
               product.name === 'Gorda detectada' && antiGordaDisappearing ? 'animate-product-disappear' : ''
@@ -171,7 +175,7 @@ const RadarDisplay = () => {
             <img 
               src={product.image} 
               alt={product.name}
-              className="product-image"
+              className={`product-image ${isLargeSize ? 'product-image-large' : ''}`}
             />
           </div>
         )
